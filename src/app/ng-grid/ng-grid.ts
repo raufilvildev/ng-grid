@@ -18,7 +18,6 @@ import { ColumnsService } from './services/columns-service';
 import { OrdersService } from './services/orders-service';
 import { PageService } from './services/page-service';
 import { FiltersService } from './services/filters-service';
-import { AreaSelection } from './body/directives/area-selection';
 import { SelectionAreaService } from './body/services/selection-area-service';
 
 @Component({
