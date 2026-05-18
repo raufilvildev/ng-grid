@@ -1,0 +1,77 @@
+<div
+  class="w-fit flex items-center bg-zinc-100 text-zinc-900 text-sm font-medium border-b border-zinc-400 select-none"
+>
+  @for (colDef of columnsService.internalColDefs(); track $index) {
+    @if (!columnsService.hiddenColumns().includes(colDef.field)) {
+      <div>
+        <div
+          class="flex justify-between items-center"
+          [style.width.px]="colDef.width"
+          [style.transform]="
+            columnsService.getTransform(
+              columnsService.dragState(),
+              $index,
+              columnsService.internalColDefs()
+            )
+          "
+          [style.transition]="columnsService.dragState() ? 'transform 350ms ease' : ''"
+          cell
+          head-cell
+          [attr.data-col]="$index"
+          appColumnIndexUpdate
+          [tableContainer]="tableContainer()"
+          [horizontalScrollDragging]="horizontalScrollDragging()"
+          [columnIndex]="$index"
+        >
+          <div class="px-2 py-1.5 overflow-hidden text-ellipsis text-nowrap">
+            {{ colDef.headerName }}
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            @let field = colDef.field;
+            <button
+              class="w-3.5 h-3.5 hover:text-zinc-500 cursor-pointer"
+              (click)="ordersService.columnSortUpdate(field)"
+            >
+              @if (ordersService.internalOrders()[field] === 'ASC') {
+                <app-icon-up-arrow></app-icon-up-arrow>
+              } @else if (ordersService.internalOrders()[field] === 'DESC') {
+                <app-icon-down-arrow></app-icon-down-arrow>
+              } @else {
+                <app-icon-up-down-arrow></app-icon-up-down-arrow>
+              }
+            </button>
+            <button
+              class="w-3.5 h-3.5 hover:text-zinc-500 cursor-pointer"
+              (click)="$event.stopPropagation(); onFilterClick($index)"
+            >
+              <app-icon-filter></app-icon-filter>
+            </button>
+            <button
+              class="cursor-col-resize w-2 text-zinc-400 font-light"
+              [class.text-transparent!]="$last"
+              appColumnResize
+              [columnIndex]="$index"
+              [tableContainer]="tableContainer()"
+              [horizontalScrollDragging]="horizontalScrollDragging()"
+            >
+              |
+            </button>
+          </div>
+        </div>
+        @if (optionsMenuColumnIndex() === $index) {
+          <div
+            class="absolute z-10 mt-1"
+            [style.top.px]="optionsMenuPosition()?.top"
+            [style.left.px]="optionsMenuPosition()?.left"
+            appClickOutside
+            (clickOutside)="optionsMenuColumnIndex.set(null)"
+            (document:scroll)="optionsMenuColumnIndex.set(null)"
+          >
+            <app-options-menu [field]="colDef.field" [fieldType]="colDef.type"></app-options-menu>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

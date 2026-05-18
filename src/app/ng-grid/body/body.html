@@ -1,0 +1,51 @@
+<div
+  class="w-fit select-none"
+  appClickOutside
+  (clickOutside)="
+    selectionArea.set({
+      startRowIndex: null,
+      endRowIndex: null,
+      startColumnIndex: null,
+      endColumnIndex: null,
+    })
+  "
+>
+  @for (row of rows(); track $index; let rowIndex = $index) {
+    <div
+      class="flex items-center border-b border-b-zinc-200 hover:bg-zinc-50 overflow-hidden text-ellipsis text-nowrap"
+      [class.border-b-0]="$last"
+    >
+      @for (colDef of columnsService.internalColDefs(); track $index; let columnIndex = $index) {
+        @if (!columnsService.hiddenColumns().includes(colDef.field)) {
+          @let selectionAreaCellStyles =
+            selectionAreaService.getSelectionAreaCellStyles(selectionArea(), rowIndex, columnIndex);
+          <div
+            cell
+            body-cell
+            [attr.data-row]="rowIndex"
+            [attr.data-col]="columnIndex"
+            class="pl-2 pr-3 py-1.5 overflow-hidden text-ellipsis text-nowrap"
+            [class]="selectionAreaCellStyles.class"
+            [style.boxShadow]="selectionAreaCellStyles.boxShadow"
+            [style.width.px]="colDef.width"
+            [style.transform]="
+              columnsService.getTransform(
+                columnsService.dragState(),
+                $index,
+                columnsService.internalColDefs()
+              )
+            "
+            [style.transition]="columnsService.dragState() ? 'transform 350ms ease' : ''"
+            appSelectionArea
+            [horizontalScrollDragging]="horizontalScrollDragging()"
+            [rowIndex]="rowIndex"
+            [columnIndex]="columnIndex"
+            (selectionAreaUpdate)="selectionArea.set($event)"
+          >
+            {{ row[colDef.field] }}
+          </div>
+        }
+      }
+    </div>
+  }
+</div>

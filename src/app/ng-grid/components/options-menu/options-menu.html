@@ -1,0 +1,82 @@
+<div class="w-60 select-none" (click)="$event.stopPropagation()">
+  <app-menu-container>
+    <app-option-with-auxiliar-menu-container>
+      <app-option [hasAuxiliarMenu]="true">
+        <app-option-content-with-icon text="Ocultar columnas">
+          <app-icon-close-eye></app-icon-close-eye>
+        </app-option-content-with-icon>
+      </app-option>
+      <div>
+        <app-auxiliar-menu-container>
+          <app-checkbox-list></app-checkbox-list>
+        </app-auxiliar-menu-container>
+      </div>
+    </app-option-with-auxiliar-menu-container>
+    <app-option-with-auxiliar-menu-container>
+      <app-option [hasAuxiliarMenu]="true">
+        <app-option-content-with-icon text="Ordenar columna">
+          <app-icon-sort-az></app-icon-sort-az>
+        </app-option-content-with-icon>
+      </app-option>
+      <app-auxiliar-menu-container>
+        <app-menu-container>
+          <app-option (click)="ordersService.setColumnSort(field(), 'ASC')" class="font-normal">
+            <app-option-content-with-icon text="Ordenar de la A a la Z">
+              <app-icon-ascending-order></app-icon-ascending-order> </app-option-content-with-icon
+          ></app-option>
+          <app-option (click)="ordersService.setColumnSort(field(), 'DESC')" class="font-normal"
+            ><app-option-content-with-icon text="Ordenar de la Z a la A">
+              <app-icon-descending-order></app-icon-descending-order> </app-option-content-with-icon
+          ></app-option>
+        </app-menu-container>
+      </app-auxiliar-menu-container>
+    </app-option-with-auxiliar-menu-container>
+    <div>
+      @let isFilterByConditionDisable = fieldType() === 'boolean';
+      <app-option
+        [hasSubmenu]="true"
+        [showSubmenu]="showFilterByConditionSubmenu()"
+        [isDisable]="isFilterByConditionDisable"
+        (click)="
+          !isFilterByConditionDisable
+            ? showFilterByConditionSubmenu.set(!showFilterByConditionSubmenu())
+            : null
+        "
+      >
+        <app-option-content-with-icon text="Filtrar por condición">
+          <div class="p-0.5">
+            <app-icon-filter></app-icon-filter>
+          </div>
+        </app-option-content-with-icon>
+      </app-option>
+      @if (showFilterByConditionSubmenu()) {
+        <app-filters-by-condition-section
+          [field]="field()"
+          [fieldType]="fieldType()"
+        ></app-filters-by-condition-section>
+      }
+    </div>
+    <div>
+      @let isFilterByValuesDisable =
+        !filtersService.internalValues()[field()] ||
+        filtersService.internalValues()[field()]?.length === 0;
+      <app-option
+        [hasSubmenu]="true"
+        [showSubmenu]="showFilterByValuesSubmenu()"
+        [isDisable]="isFilterByValuesDisable"
+        (click)="
+          !isFilterByValuesDisable
+            ? showFilterByValuesSubmenu.set(!showFilterByValuesSubmenu())
+            : null
+        "
+      >
+        <app-option-content-with-icon text="Filtrar por valores">
+          <app-icon-check></app-icon-check>
+        </app-option-content-with-icon>
+      </app-option>
+      @if (showFilterByValuesSubmenu()) {
+        <app-values-list [field]="field()"></app-values-list>
+      }
+    </div>
+  </app-menu-container>
+</div>

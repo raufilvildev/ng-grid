@@ -1,0 +1,22 @@
+<div
+  class="w-fit border-t border-t-zinc-400 bg-zinc-200 flex items-center text-zinc-900 font-medium hover:bg-zinc-300"
+>
+  @for (colDef of columnsService.internalColDefs(); track $index) {
+    @if (!columnsService.hiddenColumns().includes(colDef.field)) {
+      <div
+        [style.width.px]="colDef.width"
+        [style.transform]="
+          columnsService.getTransform(
+            columnsService.dragState(),
+            $index,
+            columnsService.internalColDefs()
+          )
+        "
+        [style.transition]="columnsService.dragState() ? 'transform 350ms ease' : ''"
+        class="px-2 py-1.5 overflow-hidden text-ellipsis text-nowrap"
+      >
+        {{ footer()[colDef.field] }}
+      </div>
+    }
+  }
+</div>

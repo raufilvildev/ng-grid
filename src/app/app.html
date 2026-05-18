@@ -1,0 +1,56 @@
+<div class="w-200 max-w-full flex flex-col items-stretch gap-10">
+  <app-ng-grid
+    [tableData]="{ colDefs, page: 1 }"
+    [rows]="rows"
+    [paginationData]="paginationData"
+    [footer]="{
+      id: 14,
+      name: 'John',
+      age: 20,
+      email: 'johndoe@example.com',
+      isActive: true,
+      role: 'user',
+      createdAt: '',
+      updatedAt: '',
+    }"
+    [values]="{
+      name: ['John', 'Jane', 'Doe'],
+      age: [20, 30, 40],
+      role: ['user', 'admin'],
+      isActive: [true, false],
+    }"
+    (tableDataUpdate)="console.log($event)"
+  ></app-ng-grid>
+
+  <app-ng-grid
+    [tableData]="{ colDefs, page: 1 }"
+    [rows]="rows"
+    [paginationData]="paginationData"
+    [footer]="{
+      id: 14,
+      name: 'John',
+      age: 20,
+      email: 'johndoe@example.com',
+      isActive: true,
+      role: 'user',
+      createdAt: '',
+      updatedAt: '',
+    }"
+  ></app-ng-grid>
+
+  <app-ng-grid
+    [tableData]="{ colDefs, page: 1 }"
+    [rows]="rows"
+    [paginationData]="paginationData"
+    [footer]="{
+      id: 14,
+      name: 'John',
+      age: 20,
+      email: 'johndoe@example.com',
+      isActive: true,
+      role: 'user',
+      createdAt: '',
+      updatedAt: '',
+    }"
+  ></app-ng-grid>
+</div>

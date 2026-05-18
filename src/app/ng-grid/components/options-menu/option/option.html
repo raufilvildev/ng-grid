@@ -1,0 +1,15 @@
+<li
+  class="text-sm px-3 py-1 flex justify-between items-center"
+  [class.hover:bg-gray-100]="!isDisable()"
+  [class.opacity-50]="isDisable()"
+>
+  <ng-content></ng-content>
+  @if (hasAuxiliarMenu() || (hasSubmenu() && showSubmenu())) {
+    <div
+      class="p-1 w-4 h-4 text-zinc-600 transition-all duration-100 ease-in"
+      [class.rotate-90]="showSubmenu()"
+    >
+      <app-icon-triangle-menu></app-icon-triangle-menu>
+    </div>
+  }
+</li>

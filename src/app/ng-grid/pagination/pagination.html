@@ -1,0 +1,28 @@
+<div class="px-2 py-2 flex justify-between items-center gap-5 font-semibold text-sm text-zinc-900">
+  <div class="flex items-center gap-5">
+    @let total = paginationData().totalNumberOfRows;
+    @let filteredTotal = paginationData().totalNumberOfFilteredRows;
+    <span>Total registros: {{ total }}</span>
+    @if (total !== filteredTotal) {
+      <span>Total registros filtrados: {{ filteredTotal }}</span>
+    }
+    <span>Mostrando registros: {{ startIndexResult() }} - {{ endIndexResult() }}</span>
+  </div>
+  <div class="flex items-center gap-5">
+    <span>Página {{ pageService.internalPage() }} de {{ totalPages() }}</span>
+    <div class="flex items-center gap-2.5">
+      <button
+        class="w-5 h-5 p-1 rounded-lg border border-zinc-300 hover:bg-zinc-100 cursor-pointer"
+        (click)="onPrev()"
+      >
+        <app-icon-left-head-arrow></app-icon-left-head-arrow>
+      </button>
+      <button
+        class="w-5 h-5 p-1 rounded-lg border border-zinc-300 hover:bg-zinc-100 cursor-pointer"
+        (click)="onNext()"
+      >
+        <app-icon-right-head-arrow></app-icon-right-head-arrow>
+      </button>
+    </div>
+  </div>
+</div>

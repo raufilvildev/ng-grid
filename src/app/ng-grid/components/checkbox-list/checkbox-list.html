@@ -1,0 +1,19 @@
+<app-menu-container>
+  <button
+    class="text-xs text-sky-400 hover:underline w-fit ml-auto cursor-pointer px-2 py-1"
+    (click)="columnsService.hiddenColumns.set([])"
+  >
+    Seleccionar todo
+  </button>
+  <div class="max-h-50 overflow-y-auto font-normal">
+    @for (colDef of columnsService.internalColDefs(); track $index) {
+      <li
+        (click)="onClick(colDef.field)"
+        class="flex items-center gap-2 px-4 py-0.5 text-sm hover:bg-zinc-200"
+      >
+        <input type="checkbox" [checked]="!columnsService.hiddenColumns().includes(colDef.field)" />
+        <label>{{ colDef.headerName }}</label>
+      </li>
+    }
+  </div>
+</app-menu-container>

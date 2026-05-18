@@ -1,0 +1,92 @@
+<div class="px-4 py-1 w-full flex flex-col items-stretch group">
+  <span
+    class="px-3 py-2 rounded-md border border-gray-100 w-full group-hover:bg-gray-50 font-normal"
+    (click)="showFilterByConditionSubmenu.set(!showFilterByConditionSubmenu())"
+    >{{
+      selectedOption() === null ? 'Selecciona una opción...' : options[selectedOption() || 0]
+    }}</span
+  >
+  @if (showFilterByConditionSubmenu()) {
+    <ul class="border border-gray-100 mt-2 mx-2 max-h-50 overflow-y-auto font-normal">
+      <li
+        class="px-2 py-1 hover:bg-gray-100"
+        [class.bg-gray-100]="selectedOption() === null"
+        (click)="selectedOption.set(null); showFilterByConditionSubmenu.set(false)"
+      >
+        Selecciona una opción...
+      </li>
+      @for (option of optionsKeys(); track $index) {
+        @if (
+          (fieldType() !== 'string' || stringOptions.includes(option)) &&
+          (fieldType() === 'string' || numberDateDateTimeOptions.includes(option))
+        ) {
+          <li
+            class="px-2 py-1 hover:bg-gray-100"
+            [class.bg-gray-100]="selectedOption() === option"
+            (click)="selectedOption.set(option); showFilterByConditionSubmenu.set(false)"
+          >
+            {{ options[option] }}
+          </li>
+        }
+      }
+    </ul>
+  }
+  @if (
+    selectedOption() !== null &&
+    !['isEmpty', 'isNotEmpty', 'isNull', 'isNotNull', 'isBetween', 'isNotBetween'].includes(
+      selectedOption()!
+    )
+  ) {
+    <input
+      type="text"
+      class="w-full border border-gray-100 px-3 py-2 mt-2 focus:outline-none font-normal"
+      placeholder="Valor..."
+      [value]="value()"
+      (input)="value.set($event.target.value)"
+    />
+  }
+
+  @if (selectedOption() === 'isBetween' || selectedOption() === 'isNotBetween') {
+    <div class="flex flex-col items-stretch gap-2 mt-2 font-normal">
+      <input
+        type="text"
+        class="w-full border border-gray-100 px-3 py-2 focus:outline-none font-normal"
+        placeholder="Valor mínimo..."
+        [value]="betweenValues()?.lowerBound"
+        (input)="
+          betweenValues.set({
+            lowerBound: $event.target.value,
+            upperBound: `${betweenValues()?.upperBound ?? ''}`,
+          })
+        "
+      />
+      <span class="mx-auto">y</span>
+      <input
+        type="text"
+        class="w-full border border-gray-100 px-3 py-2 focus:outline-none font-normal"
+        placeholder="Valor máximo..."
+        [value]="betweenValues()?.upperBound"
+        (input)="
+          betweenValues.set({
+            lowerBound: `${betweenValues()?.lowerBound ?? ''}`,
+            upperBound: $event.target.value,
+          })
+        "
+      />
+    </div>
+  }
+  <div class="mt-2 my-1 ml-auto flex items-center gap-4 px-3">
+    <button
+      (click)="onCancel()"
+      class="border border-gray-100 px-2 py-1 hover:bg-gray-50 cursor-pointer"
+    >
+      Cancelar
+    </button>
+    <button
+      (click)="onSave()"
+      class="border border-gray-100 px-2 py-1 bg-green-800 hover:bg-green-900 text-white cursor-pointer"
+    >
+      Guardar
+    </button>
+  </div>
+</div>

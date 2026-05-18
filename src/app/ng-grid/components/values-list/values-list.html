@@ -1,0 +1,66 @@
+@let values = filtersService.internalValues()[field()];
+
+<div class="bg-white py-1 w-full flex flex-col items-stretch">
+  <div class="px-4 my-2">
+    <div class="relative">
+      <input
+        type="text"
+        class="input-with-icon"
+        placeholder="Busca un valor..."
+        class="w-full focus:outline-none border border-gray-100 text-sm pl-3 pr-9 py-1"
+        (input)="search.set($event.target.value)"
+      />
+      <div class="p-0.5 w-5 h-5 absolute right-2 top-1/2 -translate-y-1/2 text-gray-300">
+        <app-icon-lens></app-icon-lens>
+      </div>
+    </div>
+  </div>
+  <div class="mx-4 mb-1 flex justify-between items-center gap-4">
+    <button
+      class="text-sm hover:underline text-zinc-700 cursor-pointer"
+      (click)="notInValuesList.set(values)"
+    >
+      Borrar todo</button
+    ><button
+      class="text-sm hover:underline text-sky-400 cursor-pointer"
+      (click)="notInValuesList.set([])"
+    >
+      Seleccionar todo
+    </button>
+  </div>
+  <ul class="mx-6 flex flex-col border border-gray-100 max-h-50 overflow-auto">
+    @for (value of values; track value) {
+      @if (`${value}`.includes(search())) {
+        <li
+          (click)="onClick(value)"
+          class="w-full min-w-fit hover:bg-gray-100 px-2 py-px flex items-center gap-2 text-sm font-normal"
+        >
+          <div
+            class="shrink-0 w-3 h-3 text-zinc-500"
+            [class.opacity-0]="notInValuesList().includes(value)"
+          >
+            <app-icon-check></app-icon-check>
+          </div>
+
+          {{
+            value === true ? 'TRUE' : value === false ? 'FALSE' : value === null ? 'NULL' : value
+          }}
+        </li>
+      }
+    }
+  </ul>
+  <div class="mt-2 ml-auto flex items-center gap-4 px-3">
+    <button
+      (click)="onCancel()"
+      class="border border-gray-100 px-2 py-1 hover:bg-gray-50 cursor-pointer"
+    >
+      Cancelar
+    </button>
+    <button
+      (click)="onSave()"
+      class="border border-gray-100 px-2 py-1 bg-green-800 hover:bg-green-900 text-white cursor-pointer"
+    >
+      Guardar
+    </button>
+  </div>
+</div>

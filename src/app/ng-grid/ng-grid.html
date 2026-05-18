@@ -1,0 +1,21 @@
+<div class="w-full max-w-fit flex flex-col items-stretch">
+  <div
+    #tableContainer
+    appHorizontalScrollDragging
+    #horizontalScrollDragging="horizontalScrollDragging"
+    [tableContainer]="tableContainer"
+    class="flex flex-col w-full overflow-x-auto items-stretch border border-zinc-800 rounded-lg"
+  >
+    <app-header
+      [tableContainer]="tableContainer"
+      [horizontalScrollDragging]="horizontalScrollDragging"
+    ></app-header>
+    <app-body [rows]="rows()" [horizontalScrollDragging]="horizontalScrollDragging"></app-body>
+    @if (footer()) {
+      <app-footer [footer]="footer()"></app-footer>
+    }
+  </div>
+</div>
+@if (paginationData() && pageService.internalPage()) {
+  <app-pagination [paginationData]="paginationData()!"></app-pagination>
+}
