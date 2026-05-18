@@ -18,13 +18,14 @@ import { ColumnsService } from './services/columns-service';
 import { OrdersService } from './services/orders-service';
 import { PageService } from './services/page-service';
 import { FiltersService } from './services/filters-service';
+import { AreaSelection } from './body/directives/area-selection';
 
 @Component({
   selector: 'app-ng-grid',
   imports: [Header, Body, Footer, Pagination, HorizontalScrollDragging],
   templateUrl: './ng-grid.html',
   styleUrl: './ng-grid.css',
-  providers: [ColumnsService, OrdersService, FiltersService, PageService],
+  providers: [ColumnsService, OrdersService, FiltersService, PageService, AreaSelection],
 })
 export class NgGrid {
   constructor() {

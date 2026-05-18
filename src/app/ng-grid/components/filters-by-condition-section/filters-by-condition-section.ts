@@ -85,8 +85,11 @@ export class FiltersByConditionSection {
 
     if (!filter) return;
 
+    const selectedOptionKey: string | null =
+      Object.keys(filter).find((key) => key !== 'notIn') || null;
+
     const selectedOption: string | null =
-      Object.keys(filter).find((key) => filter[key as keyof IFilter] !== 'notIn') || null;
+      selectedOptionKey === null ? null : this.options[selectedOptionKey];
 
     this.selectedOption.set(selectedOption);
 

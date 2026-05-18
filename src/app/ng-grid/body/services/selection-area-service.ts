@@ -1,9 +1,7 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 import { ISelectionArea } from '../../interfaces/i-selection-area';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SelectionAreaService {
   selectionArea: WritableSignal<ISelectionArea> = signal({
     startRowIndex: null,

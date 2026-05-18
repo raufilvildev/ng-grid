@@ -61,7 +61,4 @@ export class OptionsMenu {
 
   showFilterByConditionSubmenu: WritableSignal<boolean> = signal(false);
   showFilterByValuesSubmenu: WritableSignal<boolean> = signal(false);
-
-  hiddenColumns: WritableSignal<string[]> = signal([]);
-  hiddenValues: WritableSignal<any[]> = signal([]);
 }
